@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SHA_Next": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
