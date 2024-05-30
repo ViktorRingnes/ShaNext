@@ -7,7 +7,7 @@ namespace ShaNext.ShaNext
     {
         private const int SaltSize = 64;  
 
-        public static string Salt(string providedSalt = null)
+        public static string NewSalt(string providedSalt = null)
         {
             if (!string.IsNullOrEmpty(providedSalt))
             {
@@ -15,6 +15,13 @@ namespace ShaNext.ShaNext
             }
 
             byte[] saltBytes = new byte[SaltSize];
+            RandomNumberGenerator.Fill(saltBytes);
+            return Convert.ToBase64String(saltBytes);
+        }
+
+        public static string NewFixedLengthSalt(int length)
+        {
+            byte[] saltBytes = new byte[length];
             RandomNumberGenerator.Fill(saltBytes);
             return Convert.ToBase64String(saltBytes);
         }

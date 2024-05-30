@@ -19,6 +19,54 @@ namespace ShaNext.ShaNext
             return BitConverter.ToString(hash).Replace("-", "").ToLower();
         }
 
+        public static string HashWithSalt(string input, string salt)
+        {
+            if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(salt))
+                throw new ArgumentException("Input and salt cannot be null or empty");
+
+            string saltedInput = salt + input;
+            return Hash(saltedInput);
+        }
+
+        public static string GenerateSaltedHash(string input)
+        {
+            string salt = ShaNextSalt.NewSalt();
+            string hash = HashWithSalt(input, salt);
+            return $"{hash}:{salt}";
+        }
+
+        public static string HashWithCustomIterations(string input, string salt, int iterations)
+        {
+            if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(salt))
+                throw new ArgumentException("Input and salt cannot be null or empty");
+
+            string hash = salt + input;
+            for (int i = 0; i < iterations; i++)
+            {
+                hash = Hash(hash);
+            }
+            return hash;
+        }
+
+        public static string HashFile(string filePath)
+        {
+            using (Stream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                return HashStream(stream);
+            }
+        }
+
+        public static string HashStream(Stream stream)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                stream.CopyTo(memoryStream);
+                byte[] fileBytes = memoryStream.ToArray();
+                string input = Encoding.UTF8.GetString(fileBytes);
+                return Hash(input);
+            }
+        }
+
         public static byte[] SHA_Next(string input)
         {
             uint[] H = {
@@ -45,7 +93,7 @@ namespace ShaNext.ShaNext
                 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
             };
 
-            byte[] paddedMessage = ShaNextUtilities.PadMessage(Encoding.UTF8.GetBytes(input));
+            byte[] paddedMessage = PadMessage(Encoding.UTF8.GetBytes(input));
             int blockCount = paddedMessage.Length / BlockSize;
 
             for (int i = 0; i < blockCount; i++)
@@ -54,13 +102,13 @@ namespace ShaNext.ShaNext
                 for (int j = 0; j < 16; j++)
                 {
                     W[j] = BitConverter.ToUInt32(paddedMessage, i * BlockSize + j * 4);
-                    W[j] = ShaNextUtilities.ReverseBytes(W[j]);
+                    W[j] = ReverseBytes(W[j]);
                 }
 
                 for (int t = 16; t < MessageScheduleSize; t++)
                 {
-                    uint s0 = ShaNextUtilities.RightRotate(W[t - 15], 7) ^ ShaNextUtilities.RightRotate(W[t - 15], 18) ^ (W[t - 15] >> 3);
-                    uint s1 = ShaNextUtilities.RightRotate(W[t - 2], 17) ^ ShaNextUtilities.RightRotate(W[t - 2], 19) ^ (W[t - 2] >> 10);
+                    uint s0 = RightRotate(W[t - 15], 7) ^ RightRotate(W[t - 15], 18) ^ (W[t - 15] >> 3);
+                    uint s1 = RightRotate(W[t - 2], 17) ^ RightRotate(W[t - 2], 19) ^ (W[t - 2] >> 10);
                     W[t] = W[t - 16] + s0 + W[t - 7] + s1;
                 }
 
@@ -75,10 +123,10 @@ namespace ShaNext.ShaNext
 
                 for (int t = 0; t < MessageScheduleSize; t++)
                 {
-                    uint Σ1 = ShaNextUtilities.RightRotate(e, 6) ^ ShaNextUtilities.RightRotate(e, 11) ^ ShaNextUtilities.RightRotate(e, 25);
+                    uint Σ1 = RightRotate(e, 6) ^ RightRotate(e, 11) ^ RightRotate(e, 25);
                     uint Ch = (e & f) ^ ((~e) & g);
                     uint temp1 = h + Σ1 + Ch + K[t] + W[t];
-                    uint Σ0 = ShaNextUtilities.RightRotate(a, 2) ^ ShaNextUtilities.RightRotate(a, 13) ^ ShaNextUtilities.RightRotate(a, 22);
+                    uint Σ0 = RightRotate(a, 2) ^ RightRotate(a, 13) ^ RightRotate(a, 22);
                     uint Maj = (a & b) ^ (a & c) ^ (b & c);
                     uint temp2 = Σ0 + Maj;
 
@@ -105,10 +153,55 @@ namespace ShaNext.ShaNext
             byte[] hash = new byte[HashSize];
             for (int i = 0; i < 8; i++)
             {
-                Buffer.BlockCopy(BitConverter.GetBytes(ShaNextUtilities.ReverseBytes(H[i])), 0, hash, i * 4, 4);
+                Buffer.BlockCopy(BitConverter.GetBytes(ReverseBytes(H[i])), 0, hash, i * 4, 4);
             }
 
             return hash;
+        }
+
+        public static byte[] PadMessage(byte[] message)
+        {
+            ulong bitLength = (ulong)message.Length * 8;
+            int padLength = (message.Length % 64 < 56) ? (56 - message.Length % 64) : (120 - message.Length % 64);
+            byte[] paddedMessage = new byte[message.Length + padLength + 8];
+            Buffer.BlockCopy(message, 0, paddedMessage, 0, message.Length);
+            paddedMessage[message.Length] = 0x80;
+            for (int i = paddedMessage.Length - 8; i < paddedMessage.Length - 4; i++)
+            {
+                paddedMessage[i] = 0x00;
+            }
+            Buffer.BlockCopy(BitConverter.GetBytes(ReverseBytes(bitLength)), 0, paddedMessage, paddedMessage.Length - 8, 8);
+            return paddedMessage;
+        }
+
+        public static uint RightRotate(uint x, int n)
+        {
+            return (x >> n) | (x << (32 - n));
+        }
+
+        public static ulong RightRotate(ulong x, int n)
+        {
+            return (x >> n) | (x << (64 - n));
+        }
+
+        public static uint ReverseBytes(uint x)
+        {
+            return ((x & 0x000000FFU) << 24) |
+                   ((x & 0x0000FF00U) << 8) |
+                   ((x & 0x00FF0000U) >> 8) |
+                   ((x & 0xFF000000U) >> 24);
+        }
+
+        public static ulong ReverseBytes(ulong x)
+        {
+            return ((x & 0x00000000000000FFUL) << 56) |
+                   ((x & 0x000000000000FF00UL) << 40) |
+                   ((x & 0x0000000000FF0000UL) << 24) |
+                   ((x & 0x00000000FF000000UL) << 8) |
+                   ((x & 0x000000FF00000000UL) >> 8) |
+                   ((x & 0x0000FF0000000000UL) >> 24) |
+                   ((x & 0x00FF000000000000UL) >> 40) |
+                   ((x & 0xFF00000000000000UL) >> 56);
         }
     }
 }
