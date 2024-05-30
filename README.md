@@ -378,17 +378,3 @@ We welcome contributions! If you'd like to contribute, please fork the repositor
 ## License
 
 ShaNext is licensed under the MIT License. See the LICENSE file for more information.
-
-## Contributing
-
-We welcome contributions! If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
-
-    Fork the repository.
-    Create a feature branch (git checkout -b feature/your-feature).
-    Commit your changes (git commit -am 'Add some feature').
-    Push to the branch (git push origin feature/your-feature).
-    Create a new Pull Request.
-
-## License
-
-ShaNext is licensed under the MIT License. See the LICENSE file for more information.
