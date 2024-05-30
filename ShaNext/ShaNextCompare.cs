@@ -26,12 +26,6 @@ namespace ShaNext.ShaNext
 
             return result;
         }
-
-        public static bool CompareSaltedHash(string input, string salt, string hash)
-        {
-            string hashedInput = ShaNextHashing.HashWithSalt(input, salt);
-            return SecureEquals(hashedInput, hash);
-        }
     }
 
 
