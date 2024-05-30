@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>ShaNext</id>
+    <version>1.0.0</version>
+    <authors>Viktor Ringnes</authors>
+    <owners>Viktor Ringnes</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A security hashing library for comparing, hashing, hashing files, and comparing file hashes.</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2024</copyright>
+    <tags>hashing security sha</tags>
+    <dependencies>
+      <dependency id="NETStandard.Library" version="2.0.0" />
+    </dependencies>
+  </metadata>
+</package>
