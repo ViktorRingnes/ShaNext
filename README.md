@@ -4,12 +4,12 @@ ShaNext is a comprehensive security hashing library for .NET, designed to handle
 
 ## Features
 
-**String Hashing:** Hash any string using the custom SHA algorithm.
-**Salted Hashing:** Generate salted hashes to enhance security.
-**File Hashing:** Hash the contents of any file.
-**Custom Iterations:** Perform hash operations with custom iterations.
-**Secure Comparison:** Time-safe comparisons of hashes to mitigate timing attacks.
-**Asynchronous Operations:** All major functions support async versions for non-blocking performance.
+- **String Hashing:** Hash any string using the custom SHA algorithm.
+- **Salted Hashing:** Generate salted hashes to enhance security.
+- **File Hashing:** Hash the contents of any file.
+- **Custom Iterations:** Perform hash operations with custom iterations.
+- **Secure Comparison:** Time-safe comparisons of hashes to mitigate timing attacks.
+- **Asynchronous Operations:** All major functions support async versions for non-blocking performance.
 
 ## Installation
 
