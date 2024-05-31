@@ -4,12 +4,12 @@ ShaNext is a comprehensive security hashing library for .NET, designed to handle
 
 ## Features
 
-**String Hashing:** Hash any string using the custom SHA algorithm.
-**Salted Hashing:** Generate salted hashes to enhance security.
-**File Hashing:** Hash the contents of any file.
-**Custom Iterations:** Perform hash operations with custom iterations.
-**Secure Comparison:** Time-safe comparisons of hashes to mitigate timing attacks.
-**Asynchronous Operations:** All major functions support async versions for non-blocking performance.
+- **String Hashing:** Hash any string using the custom SHA algorithm.
+- **Salted Hashing:** Generate salted hashes to enhance security.
+- **File Hashing:** Hash the contents of any file.
+- **Custom Iterations:** Perform hash operations with custom iterations.
+- **Secure Comparison:** Time-safe comparisons of hashes to mitigate timing attacks.
+- **Asynchronous Operations:** All major functions support async versions for non-blocking performance.
 
 ## Installation
 
@@ -18,140 +18,31 @@ To install ShaNext, use the NuGet Package Manager in Visual Studio or run the fo
 dotnet add package ShaNext
 ```
 
-## Usage
-Below are some examples of how to use the ShaNext library.
+## Configuration
 
-### Hashing Strings
+ShaNext uses a configuration file (hash_config.json) to specify the default hashing algorithm. By default, SHA-256 is used, which is an industry-standard algorithm.
 
-```csharp
-using ShaNext.ShaNext;
-using System;
-
-class Program
+### Default Configuration (hash_config.json)
+```json
 {
-    static async Task Main(string[] args)
-    {
-        string input = "testInput";
-        
-        // Synchronous Hashing
-        string hash = ShaNextHashing.Hash(input);
-        Console.WriteLine($"Hash: {hash}");
-        
-        // Asynchronous Hashing
-        string asyncHash = await ShaNextHashing.HashAsync(input);
-        Console.WriteLine($"Async Hash: {asyncHash}");
-    }
-}
-```
-### Hashing with Salt
-```csharp
-using ShaNext.ShaNext;
-using System;
-
-class Program
-{
-    static async Task Main(string[] args)
-    {
-        string input = "testInput";
-        string salt = ShaNextSalt.NewSalt();
-        
-        // Synchronous Salted Hashing
-        string saltedHash = ShaNextHashing.HashWithSalt(input, salt);
-        Console.WriteLine($"Salted Hash: {saltedHash}");
-        
-        // Asynchronous Salted Hashing
-        string asyncSaltedHash = await ShaNextHashing.HashWithSaltAsync(input, salt);
-        Console.WriteLine($"Async Salted Hash: {asyncSaltedHash}");
-    }
+  "default_algorithm": "SHA_256"
 }
 ```
 
-### Generating and Verifying Salted Hashes
-```csharp
-using ShaNext.ShaNext;
-using System;
+You can change the default hashing algorithm by editing the hash_config.json file in your project's output directory (e.g., bin/Debug/net5.0/). Supported algorithms include:
 
-class Program
-{
-    static async Task Main(string[] args)
-    {
-        string input = "testInput";
-        
-        // Synchronous Generation and Verification
-        string saltedHashStored = ShaNextHashing.GenerateSaltedHash(input);
-        bool isValid = ShaNextCompare.VerifySaltedHash(input, saltedHashStored);
-        Console.WriteLine($"Is Valid: {isValid}");
-        
-        // Asynchronous Generation and Verification
-        string asyncSaltedHashStored = await ShaNextHashing.GenerateSaltedHashAsync(input);
-        bool asyncIsValid = await ShaNextCompare.VerifySaltedHashAsync(input, asyncSaltedHashStored);
-        Console.WriteLine($"Async Is Valid: {asyncIsValid}");
-    }
-}
-
-```
-
-### File Hashing
-```csharp
-using ShaNext.ShaNext;
-using System;
-using System.Threading.Tasks;
-
-class Program
-{
-    static async Task Main(string[] args)
-    {
-        string filePath = "C:\\path\\to\\your\\file.txt";
-        
-        // Synchronous File Hashing
-        string fileHash = ShaNextHashing.HashFile(filePath);
-        Console.WriteLine($"File Hash: {fileHash}");
-        
-        // Asynchronous File Hashing
-        string asyncFileHash = await ShaNextHashing.HashFileAsync(filePath);
-        Console.WriteLine($"Async File Hash: {asyncFileHash}");
-    }
-}
-
-```
-### Time-Safe Comparison
-```csharp
-using ShaNext.ShaNext;
-using System;
-
-class Program
-{
-    static void Main(string[] args)
-    {
-        string hash1 = "abcdef";
-        string hash2 = "abcdef";
-        
-        bool isEqual = ShaNextUtilities.TimeSafeCompare(hash1, hash2);
-        Console.WriteLine($"Hashes are equal: {isEqual}");
-    }
-}
-
-```
-
-# ShaNext
-
-ShaNext is a comprehensive security hashing library for .NET, designed to handle a variety of hashing needs such as hashing strings, comparing hashes, hashing files, and comparing file hashes. This library supports asynchronous operations to ensure efficient performance in modern applications.
-
-## Features
-
-**String Hashing:** Hash any string using the custom SHA algorithm.
-**Salted Hashing:** Generate salted hashes to enhance security.
-**File Hashing:** Hash the contents of any file.
-**Custom Iterations:** Perform hash operations with custom iterations.
-**Secure Comparison:** Time-safe comparisons of hashes to mitigate timing attacks.
-**Asynchronous Operations:** All major functions support async versions for non-blocking performance.
-
-## Installation
-
-To install ShaNext, use the NuGet Package Manager in Visual Studio or run the following command in your terminal:
-```bash
-dotnet add package ShaNext
-```
+- SHA_1
+- SHA_224
+- SHA_256
+- SHA_384
+- SHA_512
+- SHA_512_224
+- SHA_512_256
+- SHA_3
+- SHAKE128
+- MD5
+- WHIRLPOOL
+- RIPEMD_160
 
 ## Usage
 Below are some examples of how to use the ShaNext library.
@@ -369,11 +260,11 @@ class Program
 
 We welcome contributions! If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
 
-    Fork the repository.
-    Create a feature branch (git checkout -b feature/your-feature).
-    Commit your changes (git commit -am 'Add some feature').
-    Push to the branch (git push origin feature/your-feature).
-    Create a new Pull Request.
+- Fork the repository.
+- Create a feature branch (git checkout -b feature/your-feature).
+- Commit your changes (git commit -am 'Add some feature').
+- Push to the branch (git push origin feature/your-feature).
+- Create a new Pull Request.
 
 ## License
 

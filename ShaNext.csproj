@@ -1,19 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<OutputType>Exe</OutputType>
+		<OutputType>Library</OutputType>
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<AssemblyTitle>SHA-Next</AssemblyTitle>
-		<AssemblyDescription>A library for computing SHA-Next hash</AssemblyDescription>
+		<Title>SHA-Next</Title>
+		<Description>A security hashing library for comparing, hashing, hashing files, and comparing file hashes.</Description>
 		<Company>ShaNext</Company>
 		<Product>SHA-Next</Product>
-		<Version>1.0.0</Version>
+		<Version>1.2.0</Version>
 		<Authors>Viktor Ringnes</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/yourusername/SHA-Next</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/yourusername/SHA-Next</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/ViktorRingnes/ShaNext</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/ViktorRingnes/ShaNext</RepositoryUrl>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="ShaNext/hash_config.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</None>
+		<EmbeddedResource Include="ShaNext/hash_config.json" />
+	</ItemGroup>
+
 
 </Project>
