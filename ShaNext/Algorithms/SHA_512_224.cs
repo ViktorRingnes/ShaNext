@@ -6,8 +6,8 @@ namespace ShaNext.ShaNext
     public class SHA_512_224 : IHashAlgorithm
     {
         private const int HashSize = 28;
-        private const int BlockSize = 128; 
-        private const int MessageScheduleSize = 80; 
+        private const int BlockSize = 128;
+        private const int MessageScheduleSize = 80;
 
         public static byte[] ShaNext_512_224(string input)
         {
@@ -99,9 +99,12 @@ namespace ShaNext.ShaNext
             }
 
             byte[] hash = new byte[HashSize];
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < HashSize / 8; i++)
             {
-                Buffer.BlockCopy(BitConverter.GetBytes(ReverseBytes(H[i])), 0, hash, i * 8, 8);
+                if ((i * 8) < hash.Length && (i * 8 + 8) <= hash.Length)
+                {
+                    Buffer.BlockCopy(BitConverter.GetBytes(ReverseBytes(H[i])), 0, hash, i * 8, 8);
+                }
             }
             return hash;
         }
