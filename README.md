@@ -132,20 +132,6 @@ class Program
 }
 
 ```
-
-# ShaNext
-
-ShaNext is a comprehensive security hashing library for .NET, designed to handle a variety of hashing needs such as hashing strings, comparing hashes, hashing files, and comparing file hashes. This library supports asynchronous operations to ensure efficient performance in modern applications.
-
-## Features
-
-- **String Hashing:** Hash any string using the custom SHA algorithm.
-- **Salted Hashing:** Generate salted hashes to enhance security.
-- **File Hashing:** Hash the contents of any file.
-- **Custom Iterations:** Perform hash operations with custom iterations.
-- **Secure Comparison:** Time-safe comparisons of hashes to mitigate timing attacks.
-- **Asynchronous Operations:** All major functions support async versions for non-blocking performance.
-
 # API Reference
 
 ## ShaNextHashing Class
@@ -246,11 +232,11 @@ ShaNext is a comprehensive security hashing library for .NET, designed to handle
 
 We welcome contributions! If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
 
-    Fork the repository.
-    Create a feature branch (git checkout -b feature/your-feature).
-    Commit your changes (git commit -am 'Add some feature').
-    Push to the branch (git push origin feature/your-feature).
-    Create a new Pull Request.
+-  Fork the repository.
+- Create a feature branch (git checkout -b feature/your-feature).
+- Commit your changes (git commit -am 'Add some feature').
+- Push to the branch (git push origin feature/your-feature).
+- Create a new Pull Request.
 
 ## License
 
