@@ -31,72 +31,6 @@ ShaNext uses a configuration file (hash_config.json) to specify the default hash
 
 You can change the default hashing algorithm by editing the hash_config.json file in your project's output directory (e.g., bin/Debug/net5.0/). Supported algorithms include:
 
-- SHA_1
-- SHA_224
-- SHA_256
-- SHA_384
-- SHA_512
-- SHA_512_224
-- SHA_512_256
-- SHA_3
-- SHAKE128
-- MD5
-- WHIRLPOOL
-- RIPEMD_160
-
-## Usage
-Below are some examples of how to use the ShaNext library.
-
-### Hashing Strings
-
-```csharp
-using ShaNext.ShaNext;
-using System;
-
-class Program
-{
-    static async Task Main(string[] args)
-    {
-        string input = "testInput";
-        
-        // Synchronous Hashing
-        string hash = ShaNextHashing.Hash(input);
-        Console.WriteLine($"Hash: {hash}");
-        
-        // Asynchronous Hashing
-        string asyncHash = await ShaNextHashing.HashAsync(input);
-        Console.WriteLine($"Async Hash: {asyncHash}");
-    }
-}
-```
-### Hashing with Salt
-```csharp
-using ShaNext.ShaNext;
-using System;
-
-class Program
-{
-    static async Task Main(string[] args)
-    {
-        string input = "testInput";
-        string salt = ShaNextSalt.NewSalt();
-        
-        // Synchronous Salted Hashing
-        string saltedHash = ShaNextHashing.HashWithSalt(input, salt);
-        Console.WriteLine($"Salted Hash: {saltedHash}");
-        
-        // Asynchronous Salted Hashing
-        string asyncSaltedHash = await ShaNextHashing.HashWithSaltAsync(input, salt);
-        Console.WriteLine($"Async Salted Hash: {asyncSaltedHash}");
-    }
-}
-```
-
-### Generating and Verifying Salted Hashes
-```csharp
-using ShaNext.ShaNext;
-using System;
-
 class Program
 {
     static async Task Main(string[] args)
@@ -158,8 +92,6 @@ class Program
 }
 
 ```
-
-
 # API Reference
 
 ## ShaNextHashing Class
@@ -260,11 +192,11 @@ class Program
 
 We welcome contributions! If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
 
-- Fork the repository.
-- Create a feature branch (git checkout -b feature/your-feature).
-- Commit your changes (git commit -am 'Add some feature').
-- Push to the branch (git push origin feature/your-feature).
-- Create a new Pull Request.
+    Fork the repository.
+    Create a feature branch (git checkout -b feature/your-feature).
+    Commit your changes (git commit -am 'Add some feature').
+    Push to the branch (git push origin feature/your-feature).
+    Create a new Pull Request.
 
 ## License
 
