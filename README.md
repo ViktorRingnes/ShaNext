@@ -29,7 +29,7 @@ ShaNext uses a configuration file (hash_config.json) to specify the default hash
 }
 ```
 
-You can change the default hashing algorithm by editing the hash_config.json file in your project's output directory (e.g., bin/Debug/net5.0/). Supported algorithms include:
+You can change the default hashing algorithm by editing the hash_config.json file in your project's output directory (e.g., bin/Debug/net8.0/). Supported algorithms include:
 
 - SHA_1
 - SHA_224
