@@ -1,3 +1,4 @@
+
 # ShaNext
 
 ShaNext is a comprehensive security hashing library for .NET, designed to handle a variety of hashing needs such as hashing strings, comparing hashes, hashing files, and comparing file hashes. This library supports asynchronous operations to ensure efficient performance in modern applications.
@@ -10,6 +11,12 @@ ShaNext is a comprehensive security hashing library for .NET, designed to handle
 - **Custom Iterations:** Perform hash operations with custom iterations.
 - **Secure Comparison:** Time-safe comparisons of hashes to mitigate timing attacks.
 - **Asynchronous Operations:** All major functions support async versions for non-blocking performance.
+- **Scrypt Hashing:** Hash any string using the Scrypt algorithm.
+- **Argon2 Hashing:** Hash any string using the Argon2 algorithm.
+- **Base64 Encoding/Decoding:** Encode and decode data using Base64.
+- **Hex Encoding/Decoding:** Encode and decode data using Hexadecimal.
+- **HMAC:** Generate and verify HMACs.
+- **PBKDF2:** Generate and verify keys using PBKDF2.
 
 ## Installation
 
@@ -44,9 +51,10 @@ You can change the default hashing algorithm by editing the hash_config.json fil
 - MD5
 - WHIRLPOOL
 - RIPEMD_160
+- SCRYPT
+- ARGON2
 
 ## Usage
-Below are some examples of how to use the ShaNext library.
 
 ### Hashing Strings
 
@@ -115,7 +123,6 @@ class Program
         Console.WriteLine($"Async Is Valid: {asyncIsValid}");
     }
 }
-
 ```
 
 ### File Hashing
@@ -128,7 +135,7 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        string filePath = "C:\\path\\to\\your\\file.txt";
+        string filePath = "C:\path\to\your\file.txt";
         
         // Synchronous File Hashing
         string fileHash = ShaNextHashing.HashFile(filePath);
@@ -139,7 +146,6 @@ class Program
         Console.WriteLine($"Async File Hash: {asyncFileHash}");
     }
 }
-
 ```
 ### Time-Safe Comparison
 ```csharp
@@ -157,7 +163,119 @@ class Program
         Console.WriteLine($"Hashes are equal: {isEqual}");
     }
 }
+```
 
+### Base64 Encoding/Decoding
+```csharp
+using ShaNext.ShaNext;
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        string data = "testInput";
+        
+        // Base64 Encoding
+        string base64Encoded = ShaNextBase64.EncodeString(data);
+        Console.WriteLine($"Base64 Encoded: {base64Encoded}");
+        
+        // Base64 Decoding
+        string base64Decoded = ShaNextBase64.DecodeToString(base64Encoded);
+        Console.WriteLine($"Base64 Decoded: {base64Decoded}");
+    }
+}
+```
+
+### Hex Encoding/Decoding
+```csharp
+using ShaNext.ShaNext;
+using System;
+
+class Program
+{
+    static void Main(string[] args)
+    {
+        string data = "testInput";
+        
+        // Hex Encoding
+        string hexEncoded = ShaNextHex.EncodeString(data);
+        Console.WriteLine($"Hex Encoded: {hexEncoded}");
+        
+        // Hex Decoding
+        string hexDecoded = ShaNextHex.DecodeToString(hexEncoded);
+        Console.WriteLine($"Hex Decoded: {hexDecoded}");
+    }
+}
+```
+
+### HMAC
+```csharp
+using ShaNext.ShaNext;
+using System;
+using System.Security.Cryptography;
+
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        string key = "secretKey";
+        string data = "testInput";
+        
+        // Generate HMAC
+        string hmac = ShaNextHMAC.GenerateHMAC(key, data, HashAlgorithmName.SHA256);
+        Console.WriteLine($"HMAC: {hmac}");
+        
+        // Verify HMAC
+        bool isValid = ShaNextHMAC.VerifyHMAC(key, data, hmac, HashAlgorithmName.SHA256);
+        Console.WriteLine($"HMAC is valid: {isValid}");
+        
+        // Asynchronous Generate HMAC
+        string asyncHmac = await ShaNextHMAC.GenerateHMACAsync(key, data, HashAlgorithmName.SHA256);
+        Console.WriteLine($"Async HMAC: {asyncHmac}");
+        
+        // Asynchronous Verify HMAC
+        bool asyncIsValid = await ShaNextHMAC.VerifyHMACAsync(key, data, hmac, HashAlgorithmName.SHA256);
+        Console.WriteLine($"Async HMAC is valid: {asyncIsValid}");
+    }
+}
+```
+
+### PBKDF2
+```csharp
+using ShaNext.ShaNext;
+using System;
+using System.Text;
+using System.Threading.Tasks;
+
+class Program
+{
+    static async Task Main(string[] args)
+    {
+        string password = "password";
+        byte[] salt = ShaNextSalt.NewSalt();
+        int iterations = 10000;
+        int keyLength = 32;
+        
+        // Generate PBKDF2 Key
+        byte[] key = ShaNextPBKDF2.GenerateKey(password, salt, iterations, keyLength);
+        string keyBase64 = Convert.ToBase64String(key);
+        Console.WriteLine($"PBKDF2 Key: {keyBase64}");
+        
+        // Verify PBKDF2 Key
+        bool isValid = ShaNextPBKDF2.VerifyKey(password, salt, iterations, key);
+        Console.WriteLine($"PBKDF2 Key is valid: {isValid}");
+        
+        // Asynchronous Generate PBKDF2 Key
+        byte[] asyncKey = await ShaNextPBKDF2.GenerateKeyAsync(password, salt, iterations, keyLength);
+        string asyncKeyBase64 = Convert.ToBase64String(asyncKey);
+        Console.WriteLine($"Async PBKDF2 Key: {asyncKeyBase64}");
+        
+        // Asynchronous Verify PBKDF2 Key
+        bool asyncIsValid = await ShaNextPBKDF2.VerifyKeyAsync(password, salt, iterations, key);
+        Console.WriteLine($"Async PBKDF2 Key is valid: {asyncIsValid}");
+    }
+}
 ```
 
 
@@ -256,17 +374,78 @@ class Program
 - **TimeSafeCompare(string a, string b):**  
   Compares two strings in a time-safe manner to mitigate timing attacks.
 
+## ShaNextPBKDF2 Class
 
-## Contributing
+### Methods
 
-We welcome contributions! If you'd like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
+#### Synchronous Methods
 
-- Fork the repository.
-- Create a feature branch (git checkout -b feature/your-feature).
-- Commit your changes (git commit -am 'Add some feature').
-- Push to the branch (git push origin feature/your-feature).
-- Create a new Pull Request.
+- **GenerateKey(string password, byte[] salt, int iterations, int keyLength):**  
+  Generates a PBKDF2 key for the given password and salt.
 
-## License
+- **VerifyKey(string password, byte[] salt, int iterations, byte[] expectedKey):**  
+  Verifies the PBKDF2 key against the expected key.
+
+#### Asynchronous Methods
+
+- **GenerateKeyAsync(string password, byte[] salt, int iterations, int keyLength):**  
+  Asynchronously generates a PBKDF2 key for the given password and salt.
+
+- **VerifyKeyAsync(string password, byte[] salt, int iterations, byte[] expectedKey):**  
+  Asynchronously verifies the PBKDF2 key against the expected key.
+
+## ShaNextHMAC Class
+
+### Methods
+
+#### Synchronous Methods
+
+- **GenerateHMAC(string key, string data, HashAlgorithmName hashAlgorithmName):**  
+  Generates an HMAC for the given key and data using the specified hash algorithm.
+
+- **VerifyHMAC(string key, string data, string hmac, HashAlgorithmName hashAlgorithmName):**  
+  Verifies the HMAC against the expected HMAC.
+
+#### Asynchronous Methods
+
+- **GenerateHMACAsync(string key, string data, HashAlgorithmName hashAlgorithmName):**  
+  Asynchronously generates an HMAC for the given key and data using the specified hash algorithm.
+
+- **VerifyHMACAsync(string key, string data, string hmac, HashAlgorithmName hashAlgorithmName):**  
+  Asynchronously verifies the HMAC against the expected HMAC.
+
+## ShaNextBase64 Class
+
+### Methods
+
+- **Encode(byte[] data):**  
+  Encodes the given data to a Base64 string.
+
+- **Decode(string base64String):**  
+  Decodes the given Base64 string to data.
+
+- **EncodeString(string data):**  
+  Encodes the given string to a Base64 string.
+
+- **DecodeToString(string base64String):**  
+  Decodes the given Base64 string to a string.
+
+## ShaNextHex Class
+
+### Methods
+
+- **Encode(byte[] data):**  
+  Encodes the given data to a Hexadecimal string.
+
+- **Decode(string hex):**  
+  Decodes the given Hexadecimal string to data.
+
+- **EncodeString(string data):**  
+  Encodes the given string to a Hexadecimal string.
+
+- **DecodeToString(string hex):**  
+  Decodes the given Hexadecimal string to a string.
+
+# License
 
 ShaNext is licensed under the MIT License. See the LICENSE file for more information.
