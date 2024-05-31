@@ -11,55 +11,42 @@ namespace ShaNext.ShaNext
 
         public static IHashAlgorithm Create()
         {
-            Config config;
+            Config ?config;
             if (File.Exists(configFilePath))
             {
                 config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configFilePath));
             }
             else
             {
-                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ShaNext.hash_config.json"))
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    config = JsonConvert.DeserializeObject<Config>(reader.ReadToEnd());
-                }
+                using Stream ?stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ShaNext.hash_config.json");
+                using StreamReader reader = new StreamReader(stream!);
+                config = JsonConvert.DeserializeObject<Config>(reader.ReadToEnd());
             }
 
-            switch (config.DefaultAlgorithm.ToUpper())
+            return config!.DefaultAlgorithm.ToUpper() switch
             {
-                case "SHA_256":
-                    return new SHA_256();
-                case "SHA_1":
-                    return new SHA_1();
-                case "SHA_224":
-                    return new SHA_224();
-                case "SHA_384":
-                    return new SHA_384();
-                case "SHA_512":
-                    return new SHA_512();
-                case "SHA_512_224":
-                    return new SHA_512_224();
-                case "SHA_512_256":
-                    return new SHA_512_256();
-                case "SHA_3":
-                    return new SHA_3();
-                case "SHAKE128":
-                    return new SHAKE128();
-                case "MD5":
-                    return new MD5();
-                case "WHIRLPOOL":
-                    return new Whirlpool();
-                case "RIPEMD_160":
-                    return new RIPEMD_160();
-                default:
-                    throw new InvalidOperationException("Unknown hashing algorithm");
-            }
+                "SHA_256" => new SHA_256(),
+                "SHA_1" => new SHA_1(),
+                "SHA_224" => new SHA_224(),
+                "SHA_384" => new SHA_384(),
+                "SHA_512" => new SHA_512(),
+                "SHA_512_224" => new SHA_512_224(),
+                "SHA_512_256" => new SHA_512_256(),
+                "SHA_3" => new SHA_3(),
+                "SHAKE128" => new SHAKE128(),
+                "MD5" => new MD5(),
+                "WHIRLPOOL" => new Whirlpool(),
+                "RIPEMD_160" => new RIPEMD_160(),
+                "ARGON2" => new Argon2(),
+                "SCRYPT" => new Scrypt(),
+                _ => throw new InvalidOperationException("Unknown hashing algorithm"),
+            };
         }
 
         private class Config
         {
             [JsonProperty("default_algorithm")]
-            public string DefaultAlgorithm { get; set; }
+            public required string DefaultAlgorithm { get; set; }
         }
     }
 }
