@@ -24,7 +24,7 @@ To install ShaNext, use the NuGet Package Manager in Visual Studio or run the fo
 ```bash
 dotnet add package ShaNext
 ```
-View the package on [Nuget.](https://www.nuget.org/packages/ShaNext/)
+View the package on [NuGet.org](https://www.nuget.org/packages/ShaNext/)
 
 ## Configuration
 
