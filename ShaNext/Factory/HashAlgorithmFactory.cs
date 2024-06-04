@@ -8,22 +8,28 @@ namespace ShaNext.ShaNext
     public class HashAlgorithmFactory
     {
         private static string configFilePath = "hash_config.json";
+        private static string defaultConfig = "{\"default_algorithm\": \"SHA_256\"}";
+
+        static HashAlgorithmFactory()
+        {
+            EnsureConfigFileExists();
+        }
 
         public static IHashAlgorithm Create()
         {
-            Config ?config;
+            Config config;
             if (File.Exists(configFilePath))
             {
                 config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configFilePath));
             }
             else
             {
-                using Stream ?stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ShaNext.hash_config.json");
-                using StreamReader reader = new StreamReader(stream!);
+                using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ShaNext.hash_config.json");
+                using StreamReader reader = new StreamReader(stream);
                 config = JsonConvert.DeserializeObject<Config>(reader.ReadToEnd());
             }
 
-            return config!.DefaultAlgorithm.ToUpper() switch
+            return config.DefaultAlgorithm.ToUpper() switch
             {
                 "SHA_256" => new SHA_256(),
                 "SHA_1" => new SHA_1(),
@@ -43,10 +49,18 @@ namespace ShaNext.ShaNext
             };
         }
 
+        private static void EnsureConfigFileExists()
+        {
+            if (!File.Exists(configFilePath))
+            {
+                File.WriteAllText(configFilePath, defaultConfig);
+            }
+        }
+
         private class Config
         {
             [JsonProperty("default_algorithm")]
-            public required string DefaultAlgorithm { get; set; }
+            public string DefaultAlgorithm { get; set; }
         }
     }
 }
