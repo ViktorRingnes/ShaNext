@@ -9,7 +9,7 @@
 		<Description>A security hashing library for comparing, hashing, hashing files, and comparing file hashes.</Description>
 		<Company>ShaNext</Company>
 		<Product>SHA-Next</Product>
-		<Version>1.2.4</Version>
+		<Version>1.2.5</Version>
 		<Authors>Viktor Ringnes</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/ViktorRingnes/ShaNext</PackageProjectUrl>
@@ -18,14 +18,6 @@
 
 	<ItemGroup>
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Update="ShaNext/hash_config.json">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-		</None>
-		<EmbeddedResource Include="ShaNext/hash_config.json" />
 	</ItemGroup>
 
 </Project>

@@ -2,6 +2,7 @@
 using System.IO;
 using Newtonsoft.Json;
 using System.Reflection;
+using System.ComponentModel.DataAnnotations;
 
 namespace ShaNext.ShaNext
 {
@@ -20,16 +21,33 @@ namespace ShaNext.ShaNext
             Config config;
             if (File.Exists(configFilePath))
             {
-                config = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configFilePath));
+                var nullcheck = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configFilePath));
+                if(nullcheck == null)
+                {
+                    config = new Config();
+                }
+                else
+                {
+                    config = nullcheck;
+                }
             }
             else
             {
-                using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ShaNext.hash_config.json");
+                using Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("ShaNext.hash_config.json")!;
                 using StreamReader reader = new StreamReader(stream);
-                config = JsonConvert.DeserializeObject<Config>(reader.ReadToEnd());
+
+                var nullcheck = JsonConvert.DeserializeObject<Config>(reader.ReadToEnd());
+                if (nullcheck == null)
+                {
+                    config = new Config();
+                }
+                else
+                {
+                    config = nullcheck;
+                }
             }
 
-            return config.DefaultAlgorithm.ToUpper() switch
+            return config.DefaultAlgorithm!.ToUpper() switch
             {
                 "SHA_256" => new SHA_256(),
                 "SHA_1" => new SHA_1(),
@@ -45,7 +63,7 @@ namespace ShaNext.ShaNext
                 "RIPEMD_160" => new RIPEMD_160(),
                 "ARGON2" => new Argon2(),
                 "SCRYPT" => new Scrypt(),
-                _ => throw new InvalidOperationException("Unknown hashing algorithm"),
+                _ => throw new InvalidOperationException("Unknown hashing algorithm, read the Default Configuration section of the README for all available hashing algorithms."),
             };
         }
 
@@ -60,7 +78,7 @@ namespace ShaNext.ShaNext
         private class Config
         {
             [JsonProperty("default_algorithm")]
-            public string DefaultAlgorithm { get; set; }
+            public string? DefaultAlgorithm { get; set; }
         }
     }
 }
