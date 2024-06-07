@@ -24,7 +24,6 @@ To install ShaNext, use the NuGet Package Manager in Visual Studio or run the fo
 ```bash
 dotnet add package ShaNext
 ```
-View the package on [NuGet.org](https://www.nuget.org/packages/ShaNext/)
 
 ## Configuration
 
@@ -36,7 +35,10 @@ ShaNext uses a configuration file (hash_config.json) to specify the default hash
   "default_algorithm": "SHA_256"
 }
 ```
-You can change the default hashing algorithm by editing the hash_config.json file in your project's output directory (e.g., bin/Debug/net8.0/). Supported algorithms include:
+
+You can change the default hashing algorithm by editing the hash_config.json file in your project's output directory (e.g., bin/Debug/net8.0/). Or it will be placed directly in the root of your project depending on your project setup.     
+
+Supported algorithms include:
 
 - SHA_1
 - SHA_224
