@@ -11,7 +11,6 @@ ShaNext is a comprehensive security hashing library for .NET, designed to handle
 - **Custom Iterations:** Perform hash operations with custom iterations.
 - **Secure Comparison:** Time-safe comparisons of hashes to mitigate timing attacks.
 - **Asynchronous Operations:** All major functions support async versions for non-blocking performance.
-- **Scrypt Hashing:** Hash any string using the Scrypt algorithm.
 - **Argon2 Hashing:** Hash any string using the Argon2 algorithm.
 - **Base64 Encoding/Decoding:** Encode and decode data using Base64.
 - **Hex Encoding/Decoding:** Encode and decode data using Hexadecimal.
@@ -52,7 +51,6 @@ Supported algorithms include:
 - MD5
 - WHIRLPOOL
 - RIPEMD_160
-- SCRYPT
 - ARGON2
 
 ## Usage

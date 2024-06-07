@@ -2,11 +2,11 @@
 <package >
   <metadata>
     <id>ShaNext</id>
-    <version>1.2.5</version>
+    <version>1.2.6</version>
     <authors>Viktor Ringnes</authors>
     <owners>Viktor Ringnes</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A security hashing library for comparing, hashing, hashing files, and comparing file hashes.</description>
+    <description>A versatile .NET security hashing library offering features like HMAC, Hex, Base64 encoding/decoding, PBKDF2, time-safe comparisons, and asynchronous operations for modern applications.</description>
     <releaseNotes>Initial release.</releaseNotes>
     <copyright>Copyright 2024</copyright>
     <tags>hashing security sha</tags>

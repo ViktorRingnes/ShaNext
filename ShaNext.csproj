@@ -9,7 +9,7 @@
 		<Description>A security hashing library for comparing, hashing, hashing files, and comparing file hashes.</Description>
 		<Company>ShaNext</Company>
 		<Product>SHA-Next</Product>
-		<Version>1.2.5</Version>
+		<Version>1.2.6</Version>
 		<Authors>Viktor Ringnes</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/ViktorRingnes/ShaNext</PackageProjectUrl>

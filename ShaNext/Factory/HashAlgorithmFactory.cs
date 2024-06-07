@@ -62,7 +62,6 @@ namespace ShaNext.ShaNext
                 "WHIRLPOOL" => new Whirlpool(),
                 "RIPEMD_160" => new RIPEMD_160(),
                 "ARGON2" => new Argon2(),
-                "SCRYPT" => new Scrypt(),
                 _ => throw new InvalidOperationException("Unknown hashing algorithm, read the Default Configuration section of the README for all available hashing algorithms."),
             };
         }
