@@ -372,6 +372,13 @@ class Program
 
 - **TimeSafeCompare(string a, string b):**  
   Compares two strings in a time-safe manner to mitigate timing attacks.
+    
+- **GenerateRandomString(int length):**  
+  Generates a cryptographically secure random string of the specified length.
+
+- **GeneratePassword(int length):**  
+  Generates a cryptographically secure password of the specified length, adhering to the complexity and security requirements.
+
 
 ## ShaNextPBKDF2 Class
 
