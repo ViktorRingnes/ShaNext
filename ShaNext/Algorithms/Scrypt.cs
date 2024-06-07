@@ -30,7 +30,7 @@ namespace ShaNext.ShaNext
             return SCrypt.ComputeDerivedKey(inputBytes, salt, memoryCost, timeCost, parallelism, null, hashLength);
         }
 
-        private byte[] GenerateSalt(int length)
+        private static byte[] GenerateSalt(int length)
         {
             byte[] salt = new byte[length];
             using (var rng = new RNGCryptoServiceProvider())
@@ -53,7 +53,7 @@ namespace ShaNext.ShaNext
                 throw new ArgumentException("Parameter r is too large");
 
             if (derivedKey == null)
-                derivedKey = new byte[dkLen];
+                _ = new byte[dkLen];
 
             using (var hmac = new HMACSHA256(password))
             {

@@ -112,7 +112,7 @@ namespace ShaNext.ShaNext
                    ((x & 0xFF00000000000000UL) >> 56);
         }
 
-        public byte[] ComputeHash(byte[] input)
+        public static byte[] ComputeHash(byte[] input)
         {
             byte[] paddedMessage = PadMessage(input);
             ulong[] H = new ulong[8];

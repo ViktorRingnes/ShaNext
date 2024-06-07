@@ -22,7 +22,7 @@ namespace ShaNext.ShaNext
             if (File.Exists(configFilePath))
             {
                 var nullcheck = JsonConvert.DeserializeObject<Config>(File.ReadAllText(configFilePath));
-                if(nullcheck == null)
+                if (nullcheck == null)
                 {
                     config = new Config();
                 }

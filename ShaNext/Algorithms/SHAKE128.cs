@@ -1,21 +1,25 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 
 namespace ShaNext.ShaNext
 {
     public class SHAKE128 : IHashAlgorithm
     {
-        private const int Rate = 168; 
-        private const int Capacity = 256; 
+        private const int Rate = 168;
         private const int StateSize = 200;
-        private byte[] state = new byte[StateSize];
-        private int rateInBytes = Rate;
+        private readonly byte[] state = new byte[StateSize];
+        private readonly int rateInBytes = Rate;
         private int absorbedBytes = 0;
 
         public SHAKE128()
         {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             Array.Clear(state, 0, StateSize);
+            absorbedBytes = 0;
         }
 
         public void Absorb(byte[] data)
@@ -68,8 +72,9 @@ namespace ShaNext.ShaNext
 
         public byte[] Shake128(byte[] input, int outputLength)
         {
+            Initialize(); 
             Absorb(input);
-            byte[] padding = new byte[1] { 0x1F };
+            byte[] padding = [0x1F];
             Absorb(padding);
             state[rateInBytes - 1] ^= 0x80;
             return Squeeze(outputLength);
@@ -143,15 +148,15 @@ namespace ShaNext.ShaNext
             { 27, 20, 39, 8, 14 }
         };
 
-        private static readonly ulong[] RoundConstants = new ulong[]
-        {
+        private static readonly ulong[] RoundConstants =
+        [
             0x0000000000000001, 0x0000000000008082, 0x800000000000808A, 0x8000000080008000,
             0x000000000000808B, 0x0000000080000001, 0x8000000080008081, 0x8000000000008009,
             0x000000000000008A, 0x0000000000000088, 0x0000000080008009, 0x000000008000000A,
             0x000000008000808B, 0x800000000000008B, 0x8000000000008089, 0x8000000000008003,
             0x8000000000008002, 0x8000000000000080, 0x000000000000800A, 0x800000008000000A,
             0x8000000080008081, 0x8000000000008080, 0x0000000080000001, 0x8000000080008008
-        };
+        ];
 
         public byte[] ComputeHash(string input)
         {
