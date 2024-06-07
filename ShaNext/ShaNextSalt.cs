@@ -1,11 +1,10 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 
 namespace ShaNext.ShaNext
 {
     public class ShaNextSalt
     {
-        private const int SaltSize = 64;  
+        private const int SaltSize = 64;
 
         public static string NewSalt(string? providedSalt = null)
         {
