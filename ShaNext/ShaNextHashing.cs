@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace ShaNext.ShaNext
 {
@@ -106,21 +103,17 @@ namespace ShaNext.ShaNext
 
         public static async Task<string> HashFileAsync(string filePath)
         {
-            using (Stream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-            {
-                return await HashStreamAsync(stream);
-            }
+            using Stream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            return await HashStreamAsync(stream);
         }
 
         public static async Task<string> HashStreamAsync(Stream stream)
         {
-            using (var memoryStream = new MemoryStream())
-            {
-                await stream.CopyToAsync(memoryStream);
-                byte[] fileBytes = memoryStream.ToArray();
-                string input = Encoding.UTF8.GetString(fileBytes);
-                return await HashAsync(input);
-            }
+            using var memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream);
+            byte[] fileBytes = memoryStream.ToArray();
+            string input = Encoding.UTF8.GetString(fileBytes);
+            return await HashAsync(input);
         }
     }
 }

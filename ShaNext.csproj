@@ -6,10 +6,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<Title>SHA-Next</Title>
-		<Description>A security hashing library for comparing, hashing, hashing files, and comparing file hashes.</Description>
+		<Description>A versatile .NET security hashing library offering features like HMAC, Hex, Base64 encoding/decoding, PBKDF2, time-safe comparisons, and asynchronous operations for modern applications.</Description>
 		<Company>ShaNext</Company>
 		<Product>SHA-Next</Product>
-		<Version>1.2.6</Version>
+		<Version>1.2.7</Version>
 		<Authors>Viktor Ringnes</Authors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/ViktorRingnes/ShaNext</PackageProjectUrl>

@@ -7,7 +7,7 @@ namespace ShaNext.ShaNext
     {
         private const int SaltSize = 64;  
 
-        public static string NewSalt(string providedSalt = null)
+        public static string NewSalt(string? providedSalt = null)
         {
             if (!string.IsNullOrEmpty(providedSalt))
             {
