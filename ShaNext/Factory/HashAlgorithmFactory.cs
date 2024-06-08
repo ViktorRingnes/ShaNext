@@ -32,17 +32,24 @@ public class HashAlgorithmFactory
             _ => throw new InvalidOperationException("Unknown hashing algorithm. Check the configuration."),
         };
     }
-
     private static Config LoadConfig()
     {
-        if (!File.Exists(configFilePath))
+        try
         {
-            return JsonConvert.DeserializeObject<Config>(defaultConfig) ?? new Config();
-        }
+            if (!File.Exists(configFilePath))
+            {
+                return JsonConvert.DeserializeObject<Config>(defaultConfig) ?? new Config();
+            }
 
-        var configContent = File.ReadAllText(configFilePath);
-        return JsonConvert.DeserializeObject<Config>(configContent) ?? new Config();
+            var configContent = File.ReadAllText(configFilePath);
+            return JsonConvert.DeserializeObject<Config>(configContent) ?? new Config();
+        }
+        catch (Exception ex)
+        {
+            throw new ApplicationException("Error loading configuration", ex);
+        }
     }
+
 
     private static void EnsureConfigFileExists()
     {

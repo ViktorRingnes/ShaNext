@@ -36,31 +36,35 @@ namespace ShaNext.ShaNext
             if (string.IsNullOrEmpty(input) || string.IsNullOrEmpty(salt))
                 throw new ArgumentException("Input and salt cannot be null or empty");
 
-            string hash = salt + input;
+            var stringBuilder = new StringBuilder(salt + input);
             for (int i = 0; i < iterations; i++)
             {
-                hash = Hash(hash);
+                stringBuilder.Clear();
+                stringBuilder.Append(Hash(stringBuilder.ToString()));
             }
-            return hash;
+            return stringBuilder.ToString();
         }
 
         public static string HashFile(string filePath)
         {
-            using (Stream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            try
             {
+                using Stream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
                 return HashStream(stream);
+            }
+            catch (IOException ex)
+            {
+                throw new ApplicationException($"Error reading file at {filePath}", ex);
             }
         }
 
         public static string HashStream(Stream stream)
         {
-            using (var memoryStream = new MemoryStream())
-            {
-                stream.CopyTo(memoryStream);
-                byte[] fileBytes = memoryStream.ToArray();
-                string input = Encoding.UTF8.GetString(fileBytes);
-                return Hash(input);
-            }
+            using var memoryStream = new MemoryStream();
+            stream.CopyTo(memoryStream);
+            byte[] fileBytes = memoryStream.ToArray();
+            string input = Encoding.UTF8.GetString(fileBytes);
+            return Hash(input);
         }
 
         public static async Task<string> HashAsync(string input)
@@ -103,8 +107,15 @@ namespace ShaNext.ShaNext
 
         public static async Task<string> HashFileAsync(string filePath)
         {
-            using Stream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-            return await HashStreamAsync(stream);
+            try
+            {
+                using Stream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                return await HashStreamAsync(stream);
+            }
+            catch (IOException ex)
+            {
+                throw new ApplicationException($"Error reading file at {filePath}", ex);
+            }
         }
 
         public static async Task<string> HashStreamAsync(Stream stream)
@@ -115,5 +126,5 @@ namespace ShaNext.ShaNext
             string input = Encoding.UTF8.GetString(fileBytes);
             return await HashAsync(input);
         }
-    }
+}
 }
